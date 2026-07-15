@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Murgi Party (FMP)</title>
+    
+    <!-- Google Fonts: Using Anek Bangla universally for a stylish look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'bangla-heading': ['"Anek Bangla"', 'sans-serif'],
+                        'bangla-body': ['"Anek Bangla"', 'sans-serif'],
+                    },
+                    colors: {
+                        fmp: {
+                            bgMain: '#F2EBE3',
+                            textDark: '#2C1E16',
+                            textRed: '#A91D1D',
+                            accent: '#8B3A2B',
+                            btnBrown: '#5A371F',
+                            brandRed: '#D52B46',
+                            brandRedLight: '#FBE8EC',
+                        }
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px rgba(58, 37, 24, 0.8)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { 
+            background-color: #F2EBE3; 
+            color: #2C1E16;
+            position: relative;
+        }
+        
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-title {
+            display: inline-block;
+            color: #8B3A2B;
+            font-family: 'Anek Bangla', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #A91D1D;
+            border-radius: 2px;
+        }
+
+        /* Clean Accordion */
+        .accordion-item {
+            border-bottom: 1px solid rgba(139, 58, 43, 0.15);
+            transition: all 0.3s ease;
+        }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-btn { 
+            display: flex; align-items: center; gap: 12px; 
+            color: #2C1E16;
+            transition: color 0.2s;
+        }
+        .accordion-btn:hover { color: #8B3A2B; }
+        .accordion-icon { 
+            transition: transform 0.3s ease; 
+            color: #8B3A2B;
+        }
+        .accordion-item.active .accordion-icon { transform: rotate(180deg); }
+
+        /* Ticker Marquee */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            padding: 16px 0;
+            position: relative;
+            background: rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 15s linear infinite;
+        }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-right: 4rem;
+            font-family: 'Anek Bangla', sans-serif;
+            color: #8B3A2B;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Modern Nav Link Hover */
+        .nav-link { 
+            position: relative; 
+            transition: color 0.25s ease-out;
+            padding: 0.25rem 0.5rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #D52B46; /* Matching Brand Red */
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+            border-radius: 2px;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Egg Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-3px, -3px) rotate(-3deg); }
+            50% { transform: translate(3px, 3px) rotate(3deg); }
+            75% { transform: translate(-3px, 3px) rotate(-3deg); }
+        }
+        .egg-shake:hover { animation: shake 0.4s infinite; }
+
+        /* Smooth Speech Bubble */
+        .speech-bubble {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+
+        /* Modern App Icon Hover */
+        .app-icon {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .app-icon:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="font-bangla-body antialiased min-h-screen flex flex-col items-center">
+
+    <!-- FIXED BACKGROUND REALISTIC CHICK (🐣) SVG WATERMARK -->
+    <div class="fixed inset-0 z-[-1] flex items-center justify-center overflow-hidden pointer-events-none">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-[120vw] md:w-[70vw] h-auto max-w-[900px] opacity-[0.25] transform rotate-[-5deg]">
+            <path d="M20,60 C20,90 80,90 80,60 L70,50 L60,65 L50,45 L40,65 L30,50 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M30,55 C30,25 70,25 70,55 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+            <path d="M30,45 C20,40 25,55 35,55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+            <path d="M70,45 C80,40 75,55 65,55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+            <path d="M35,30 C35,10 65,10 65,30 L58,23 L50,32 L42,23 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-[1100px] mx-auto px-4 md:px-8">
+        
+        <!-- NEW Beautiful & Organized Navbar -->
+        <nav class="flex flex-col lg:flex-row justify-between items-center py-4 px-5 md:px-8 mt-4 mb-8 bg-white/60 backdrop-blur-xl border border-white rounded-[24px] sticky top-4 z-50 shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all">
+            
+            <!-- Logo Section -->
+            <div class="flex items-center justify-center lg:justify-start w-full lg:w-auto gap-3 mb-4 lg:mb-0 pb-4 lg:pb-0 border-b border-gray-200/60 lg:border-none">
+                <!-- Realistic Hatching Chick (🐣) SVG Logo -->
+                <svg viewBox="0 0 100 100" class="w-10 h-10 drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20,60 C20,90 80,90 80,60 L70,50 L60,65 L50,45 L40,65 L30,50 Z" fill="#FDFBF7" stroke="#DCD0C0" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M30,55 C30,25 70,25 70,55 Z" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                    <path d="M30,45 C20,40 25,55 35,55" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                    <path d="M70,45 C80,40 75,55 65,55" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                    <circle cx="42" cy="40" r="4.5" fill="#2C1E16"/>
+                    <circle cx="43.5" cy="38.5" r="1.5" fill="#FFFFFF"/>
+                    <circle cx="58" cy="40" r="4.5" fill="#2C1E16"/>
+                    <circle cx="59.5" cy="38.5" r="1.5" fill="#FFFFFF"/>
+                    <path d="M46,44 L54,44 L50,51 Z" fill="#FF8C00" stroke="#E65100" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M35,30 C35,10 65,10 65,30 L58,23 L50,32 L42,23 Z" fill="#FDFBF7" stroke="#DCD0C0" stroke-width="3" stroke-linejoin="round"/>
+                </svg>
+
+                <div class="leading-tight text-left">
+                    <h2 class="font-black text-[22px] font-bangla-heading text-[#0B1221] uppercase tracking-tight">FMP</h2>
+                    <p class="text-[10px] font-bold text-fmp-brandRed tracking-widest uppercase">Farmer Murgi Party</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Links (3x3 Grid on Mobile, Flex on Desktop) -->
+            <ul class="flex flex-wrap justify-center items-center gap-y-4 gap-x-2 lg:gap-6 font-bold text-[14px] md:text-[15px] text-[#4B5563] font-bangla-heading w-full lg:w-auto">
+                <!-- Each li takes 30% width on mobile to force 3 columns -->
+                <li class="w-[30%] lg:w-auto text-center"><a href="#home" class="nav-link hover:text-fmp-brandRed inline-block">হোম</a></li>
+                <li class="w-[30%] lg:w-auto text-center"><a href="#slogan" class="nav-link hover:text-fmp-brandRed inline-block">স্লোগান</a></li>
+                <li class="w-[30%] lg:w-auto text-center"><a href="#social" class="nav-link hover:text-fmp-brandRed inline-block">সোশ্যাল</a></li>
+                <li class="w-[30%] lg:w-auto text-center"><a href="#manifesto" class="nav-link hover:text-fmp-brandRed inline-block">ইশতেহার</a></li>
+                <li class="w-[30%] lg:w-auto text-center"><a href="#demands" class="nav-link hover:text-fmp-brandRed inline-block">দাবি</a></li>
+                <li class="w-[30%] lg:w-auto text-center"><a href="#join" class="nav-link hover:text-fmp-brandRed inline-block">জয়েন</a></li>
+                <!-- 7th Item automatically centers on the 3rd row -->
+                <li class="w-[30%] lg:w-auto text-center"><a href="#faq" class="nav-link hover:text-fmp-brandRed inline-block">জিজ্ঞাসা</a></li>
+            </ul>
+        </nav>
+
+        <main class="w-full flex flex-col gap-12 md:gap-20 pb-20">
+            
+            <!-- 1. Hero Section -->
+            <section id="home" class="w-full flex flex-col md:flex-row items-center justify-between py-10 gap-10">
+                <div class="transform -rotate-2 mb-6 flex-1 text-center md:text-left relative z-10">
+                    <h1 class="text-5xl md:text-[5.5rem] font-black text-fmp-textDark leading-[0.8] uppercase font-bangla-heading tracking-tighter">Farmer</h1>
+                    <h1 class="text-5xl md:text-[6rem] font-black text-fmp-textRed leading-[0.8] uppercase font-bangla-heading tracking-tighter" style="-webkit-text-stroke: 1px black; text-shadow: 3px 3px 0 #000;">Murgi<span class="text-fmp-textDark" style="-webkit-text-stroke: 0; text-shadow: none;">!</span></h1>
+                    <h1 class="text-4xl md:text-[4.5rem] font-black text-fmp-textDark leading-none uppercase font-bangla-heading tracking-tighter mt-2">Party</h1>
+                    
+                    <div class="inline-block bg-fmp-textDark text-[#F7EFDF] px-4 py-1 rounded-full font-bold text-2xl mt-3 transform rotate-2 border-2 border-[#F7EFDF] shadow-hard">
+                        (FMP)
+                    </div>
+                </div>
+
+                <div class="relative w-full max-w-[320px] mx-auto md:mx-0 flex-1 flex justify-center">
+                    <div class="relative z-10 bg-white/50 backdrop-blur-md rounded-[2.5rem] p-6 border border-white shadow-xl">
+                        <svg viewBox="0 0 100 100" class="w-48 h-48 md:w-64 md:h-64 drop-shadow-xl egg-shake" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20,60 C20,95 80,95 80,60 L70,50 L60,65 L50,45 L40,65 L30,50 Z" fill="#FDFBF7" stroke="#DCD0C0" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M30,55 C30,20 70,20 70,55 Z" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                            <path d="M28,45 C15,40 22,55 33,55" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                            <path d="M72,45 C85,40 78,55 67,55" fill="#FFE66D" stroke="#F4C20D" stroke-width="2"/>
+                            <circle cx="40" cy="40" r="5" fill="#2C1E16"/>
+                            <circle cx="42" cy="38" r="2" fill="#FFFFFF"/>
+                            <circle cx="60" cy="40" r="5" fill="#2C1E16"/>
+                            <circle cx="62" cy="38" r="2" fill="#FFFFFF"/>
+                            <path d="M45,45 L55,45 L50,53 Z" fill="#FF8C00" stroke="#E65100" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path d="M32,30 C32,5 68,5 68,30 L60,20 L50,32 L40,20 Z" fill="#FDFBF7" stroke="#DCD0C0" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute -top-4 -right-4 z-20 bg-white px-5 py-3 rounded-2xl shadow-xl rounded-bl-none border border-gray-100">
+                        <h3 class="font-black text-lg text-fmp-textDark font-bangla-heading leading-tight">তুমি কে? আমি কে?<br><span class="text-fmp-textRed">পোল্ট্রি, পোল্ট্রি!</span></h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Slogans (Fast Transparent Marquee) -->
+            <section id="slogan" class="w-full -mx-4 md:mx-0 md:w-auto">
+                <div class="ticker-wrap rounded-none md:rounded-2xl">
+                    <div class="ticker-move">
+                        <div class="ticker-item"><i data-lucide="megaphone" class="w-5 h-5 text-fmp-textRed"></i> কুক্কুরুক্কু!</div>
+                        <div class="ticker-item"><i data-lucide="zap" class="w-5 h-5 text-fmp-textRed"></i> হেলিকপ্টার, হেলিকপ্টার!</div>
+                        <div class="ticker-item"><i data-lucide="flame" class="w-5 h-5 text-fmp-textRed"></i> তুমি কে? আমি কে? ফার্মের মুরগী, ফার্মের মুরগী!</div>
+                        <div class="ticker-item"><i data-lucide="target" class="w-5 h-5 text-fmp-textRed"></i> তোমার আমার মার্কা মুরগী মার্কা</div>
+                        <div class="ticker-item"><i data-lucide="alert-circle" class="w-5 h-5 text-fmp-textRed"></i> কক কক কক কক মিলন আংকেল খাইলো কট</div>
+                        
+                        <div class="ticker-item"><i data-lucide="megaphone" class="w-5 h-5 text-fmp-textRed"></i> কুক্কুরুক্কু!</div>
+                        <div class="ticker-item"><i data-lucide="zap" class="w-5 h-5 text-fmp-textRed"></i> হেলিকপ্টার, হেলিকপ্টার!</div>
+                        <div class="ticker-item"><i data-lucide="flame" class="w-5 h-5 text-fmp-textRed"></i> তুমি কে? আমি কে? ফার্মের মুরগী, ফার্মের মুরগী!</div>
+                        <div class="ticker-item"><i data-lucide="target" class="w-5 h-5 text-fmp-textRed"></i> তোমার আমার মার্কা মুরগী মার্কা</div>
+                        <div class="ticker-item"><i data-lucide="alert-circle" class="w-5 h-5 text-fmp-textRed"></i> কক কক কক কক মিলন আংকেল খাইলো কট</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Social Handles (Modern Realistic SVGs) -->
+            <section id="social" class="w-full glass-card p-8 md:p-12 text-center">
+                <h2 class="section-title text-xl">সোশ্যাল হ্যান্ডেল</h2>
+                <p class="text-[16px] font-medium max-w-2xl mx-auto mb-8 text-fmp-textDark/80">
+                    হেলিকপ্টারের যেমন অনেক পাখা থাকে তেমনি আমাদেরও শাখা-প্রশাখা রয়েছে।<br>আমাদের হেলিকপ্টারকে মজবুত করতে যুক্ত হয়ে যান:
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-8 md:gap-14">
+                    <a href="https://www.facebook.com/share/1Jhf8U7Em6/" target="_blank" class="flex flex-col items-center gap-3">
+                        <div class="w-[70px] h-[70px] rounded-[18px] bg-white shadow-[0_10px_20px_rgba(24,119,242,0.2)] app-icon flex items-center justify-center p-0 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#3b82f6] to-[#1877F2]"></div>
+                            <svg class="w-10 h-10 text-white relative z-10 mt-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-sm text-fmp-textDark/80">পেইজ</span>
+                    </a>
+
+                    <a href="https://www.facebook.com/share/g/14ijtEAhjNL/" target="_blank" class="flex flex-col items-center gap-3">
+                        <div class="w-[70px] h-[70px] rounded-[18px] bg-white shadow-[0_10px_20px_rgba(24,119,242,0.2)] app-icon flex items-center justify-center p-0 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-[#1877F2] to-[#42b7ff]"></div>
+                            <svg class="w-10 h-10 text-white relative z-10" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="8" r="4"/>
+                                <path d="M12 14c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/>
+                                <circle cx="18" cy="9" r="3" opacity="0.7"/>
+                                <path d="M18 15c2.34 0 4.5.94 5.86 2.53C23.95 17.68 24 17.84 24 18v1h-3.9A9.97 9.97 0 0 0 18 15z" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-sm text-fmp-textDark/80">গ্রুপ</span>
+                    </a>
+
+                    <a href="https://www.instagram.com/farmermurgiparty.fmp?igsh=MXN2d2xid2ZrM3doNw==" target="_blank" class="flex flex-col items-center gap-3">
+                        <div class="w-[70px] h-[70px] rounded-[18px] shadow-[0_10px_20px_rgba(225,48,108,0.2)] app-icon flex items-center justify-center p-0 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-bl from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"></div>
+                            <svg class="w-10 h-10 text-white relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-sm text-fmp-textDark/80">ইনস্টাগ্রাম</span>
+                    </a>
+
+                    <a href="mailto:farmermurgiparty@gmail.com" class="flex flex-col items-center gap-3">
+                        <div class="w-[70px] h-[70px] rounded-[18px] bg-white shadow-[0_10px_20px_rgba(234,67,53,0.15)] app-icon flex items-center justify-center">
+                            <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="#EA4335" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="3" y="5" width="18" height="14" rx="2" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 15L8 10" stroke="#FBBC04" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M21 15L16 10" stroke="#34A853" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-sm text-fmp-textDark/80">ইমেইল</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 2-Column Grid for Details -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+                
+                <!-- LEFT COLUMN -->
+                <div class="flex flex-col gap-8">
+                    
+                    <section id="context" class="glass-card p-8">
+                        <h2 class="section-title text-xl">প্রেক্ষাপট ও উদ্দেশ্য</h2>
+                        <div class="text-[16px] leading-relaxed font-medium text-justify space-y-4 text-fmp-textDark/90">
+                            <p>
+                                সাম্প্রতিক সময়ে শিক্ষামন্ত্রী এহসানুক হক মিলন (হেলিকপ্টার মিলন) শিক্ষার্থীদের উদ্দেশ্য করে <strong>"ফার্মের মুরগী"</strong> বলে মন্তব্য করেছেন। তিনি হয়তো ভুলে গেছেন এই শিক্ষার্থীরাই ২০২৪ সালে দেশকে স্বৈরাচারমুক্ত করেছিল আর ২০২৬-এ নির্বাচনের পর সিগমা এডিট করে তাকে শিক্ষামন্ত্রীর দায়িত্বে এনেছে।
+                            </p>
+                            <p>
+                                অথচ তিনি আমাদের নিয়ে এমন মন্তব্য করেছেন তাও এই জুলাই মাসে—যে জুলাই মাসে হাসিনা <em>'রাজাকার'</em> বলে শিক্ষার্থীদের অপমান করেছিল। আমরা এই অপমান ভুলে যাইনি, এটাও ভুলা সম্ভব নয়। 
+                            </p>
+                            <p class="font-bold text-fmp-textRed pt-2 border-t border-fmp-textRed/20 mt-4">
+                                উনাকেও আমাদের শক্তি আর অধিকারের কথা মনে করিয়ে দিতেই আমাদের এই প্রতীকী প্রতিবাদী উদ্যোগ: Farmer Murgi Party (FMP)।
+                            </p>
+                        </div>
+                    </section>
+
+                    <section id="theme-song" class="glass-card p-8 text-center sm:text-left">
+                        <h2 class="section-title text-xl">থিম সং</h2>
+                        <div class="mt-2">
+                            <p class="font-bold text-sm text-fmp-textRed uppercase tracking-wider mb-1">লালন ফকিরের</p>
+                            <h4 class="font-black text-2xl font-bangla-heading mb-6">"মিলন হবে কত দিনে"</h4>
+                            
+                            <div class="text-[15px] font-medium leading-loose italic text-fmp-textDark/80 space-y-3">
+                                <p>মিলন হবে কত দিনে<br>আমার মনের মানুষের সনে।</p>
+                                <p>চাতক প্রায় অহর্নিশি চেয়ে আছি কালো শশী<br>হব বলে চরণ দাসী, ও তা হয় না কপাল গুণে<br>আমার মনের মানুষের সনে।</p>
+                                <p>মেঘের বিদ্যুৎ মেঘে যেমন, লুকালে না পায় অন্বেষণ<br>কালারে হারায়ে তেমন, ঐ রূপ হেরি এ দর্পণে<br>আমার মনের মানুষের সনে।</p>
+                                <p>যখন ও-রূপ স্মরণ হয়, থাকে না লোকলজ্জার ভয়<br>লালন ফকির ভেবে বলে সদাই, ও প্রেম যে করে সেই জানে<br>আমার মনের মানুষের সনে।<br>মিলন হবে কত দিনে?</p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="flex flex-col gap-8">
+                    
+                    <section id="manifesto" class="glass-card p-8">
+                        <h2 class="section-title text-xl">ইশতেহার</h2>
+                        
+                        <div class="mt-4 flex flex-col">
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="cloud-rain" class="w-5 h-5 text-fmp-textRed/70"></i> ০) বন্যার সময় পরীক্ষা নয়</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    আমরা ক্ষমতায় গেলে বন্যার সময় HSC/SSC পরীক্ষা দিবো না। যদি বন্যায় পরীক্ষার নোটিস দেই তবে হেলিকপ্টার মজুদ করে তবেই দিবো।
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="book-x" class="w-5 h-5 text-fmp-textRed/70"></i> ১) মুখস্থনির্ভর সিস্টেম বাতিল</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    শুধু মুখস্থ করিয়ে জিপিএ-৫ এর প্রতিযোগিতা বন্ধ করতে হবে। সিলেবাসের নামে রবি ঠাকুর আর নজরুলের জন্ম মৃত্যু বিয়ে ছেলের বিয়ে মেয়ের বিয়ে এইসব আর চলবেনা। জ্ঞান, বিজ্ঞান ও বাস্তবমুখী সিলেবাস প্রণয়ন করবো।
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="briefcase" class="w-5 h-5 text-fmp-textRed/70"></i> ২) বেকারত্বের খাঁচা থেকে মুক্তি</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    বছরের পর বছর পড়াশোনা শেষ করে শিক্ষার্থীদের বেকারত্বের বাজারে অমুক ভাই তমুক ভাই সহমত ভাই করতে হবে, নেতার ছেলে নেতা আর আমার ছেলে ছাতার মাথা এইসব আর হবেনা। পড়াশোনা করবে যোগ্যতা অনুযায়ী চাকরি পাবে। রাজনীতি করতে হলে বা রাজনীতিবিধ হতে হলে সেই সম্পর্কিত একটা বিশেষ পরীক্ষা দিয়ে পরীক্ষায় উত্তীর্ণ হতে হবে। তবেই কেউ এমপি হবে এমন সিটেম আমরা করবো।
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="users" class="w-5 h-5 text-fmp-textRed/70"></i> ৩) আমরা 'ডিম পাড়ার মেশিন' না</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    শিক্ষার্থীদের ব্যবহার করে কাজ শেষে ছুড়ে ফেলার এই মানসিকতা বদলাতে হবে। প্রয়োজন হলে শিক্ষার্থীদের সিগমা এডিটে শিক্ষামন্ত্রী হবেন অথচ এরপর শিক্ষার্থীদের পানিতে ডুবিয়ে নিজে হেলিকপ্টারে চড়ে চক্কর দিবেন এইসব দিন বাঘে খাইছে। দেশের শিক্ষানীতি ও গুরুত্বপূর্ণ সিদ্ধান্তে শিক্ষার্থীদের মতামতকে প্রাধান্য দিতে হবে।
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="message-square" class="w-5 h-5 text-fmp-textRed/70"></i> ৪) মতপ্রকাশ ও যৌক্তিক প্রতিবাদ</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    কক কক কক কক মিলন আংকেল খাইলো কট, এই জাতীয় স্লোগান দিতে পারবে সেই বাক স্বাধীনতা নিশ্চিত করা হবে। দায়িত্বশীল পদে থেকে যা ইচ্ছা তাই বলে পার পাওয়া যাবে না। কেউ নীতিহীন কথা বললে বা শিক্ষার্থীদের অহংকারে আঘাত করলে, মিম ও যুক্তি দিয়ে তার তাৎক্ষণিক ডিজিটাল জবাব দেওয়ার অধিকার আমাদের থাকবে।
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="hand" class="w-5 h-5 text-fmp-textRed/70"></i> ৫) "এই তোমরা কেমন আছো?"</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    এই তোমরা কেমন আছো??? এই টাইপের প্রশ্ন করলে উত্তর দেওয়ার সুযোগ দিতে হবে। অপরাপর বলা যাবেনা ঠিকমত লেখা পড়া কর তো? করতে হবেএএ নকল আর হবেএএএনা। (এক দমে এইসব কথা বলা নিষিদ্ধ করা হবে যাতে অপরপক্ষ জবাব দিতে পারে)
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="utensils" class="w-5 h-5 text-fmp-textRed/70"></i> ৬) ক্যান্টিন রিফর্ম ও পুষ্টি নিশ্চয়তা</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    শিক্ষাপ্রতিষ্ঠানের ক্যান্টিনে বাসি শিঙাড়া এবং পাথরের মতো শক্ত ডাল নিষিদ্ধ করা হবে। শিক্ষার্থীদের ব্রয়লার ফিডের বদলে প্রিমিয়াম কোয়ালিটির বিরিয়ানি ও পুষ্টিকর খাবার সরবরাহ করা হবে, যাতে শিক্ষার্থীদের মগজ মিলন আংকেলের চেয়েও দ্রুত চলে।
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="wifi" class="w-5 h-5 text-fmp-textRed/70"></i> ৭) হাই-স্পিড ইন্টারনেট ও ফ্রি ফিড</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    প্রতিটি শিক্ষাপ্রতিষ্ঠানে ২০ জিবিপিএস গতির ফ্রি ওয়াই-ফাই দিতে হবে, যাতে শিক্ষার্থীরা পরীক্ষার আগের রাতে দ্রুত অ্যাসাইনমেন্ট ডাউনলোড করতে পারে এবং মন্ত্রীর মন্তব্যের তাৎক্ষণিক ডিজিটাল জবাব দিতে পারে।
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <button class="accordion-btn w-full text-left py-4 font-bold text-[16px]">
+                                    <span class="flex items-center gap-3"><i data-lucide="shield-check" class="w-5 h-5 text-fmp-textRed/70"></i> ৮) দুর্নীতি ও মিলন মুক্ত বাংলাদেশ</span>
+                                    <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                                </button>
+                                <div class="accordion-content hidden pb-4 text-[15px] leading-relaxed font-medium text-fmp-textDark/80">
+                                    সর্বোপরি দূর্নীতি ও মিলন মুক্ত বাংলাদেশ গঠনে দেশ জাতি ও ফার্মের মুরগীর সার্থে যা কিছু করণীয় তার সব কিছুই করা হবে।
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- NEW Demands Section -->
+                    <section id="demands" class="bg-white rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+                        <!-- Left Border Accent -->
+                        <div class="absolute left-0 top-0 bottom-0 w-2.5 md:w-3.5 bg-fmp-brandRed rounded-l-[2rem]"></div>
+                        
+                        <div class="pl-2">
+                            <h2 class="text-3xl md:text-4xl font-black text-[#0B1221] font-bangla-heading mb-4 tracking-tight">স্ট্রেটকাট দাবি</h2>
+                            
+                            <p class="text-[17px] font-medium mb-8 text-[#6B7280] leading-relaxed">
+                                আজেবাজে মন্তব্য করে পার পাওয়ার দিন শেষ। আমাদের স্পষ্ট দাবি:
+                            </p>
+                            
+                            <div class="flex flex-col gap-6">
+                                <div class="bg-[#F8F9FA] rounded-2xl p-6 md:p-7">
+                                    <span class="inline-block bg-fmp-brandRedLight text-fmp-brandRed font-black text-sm px-4 py-1.5 rounded-lg mb-4 tracking-widest uppercase">
+                                        Demand 1
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-[#0B1221] mb-3 font-bangla-heading">শিক্ষামন্ত্রীর পদত্যাগ বা ক্ষমা</h3>
+                                    <p class="text-[16px] text-gray-600 font-medium leading-relaxed">
+                                        শিক্ষামন্ত্রীর পদত্যাগ অথবা হেলিকপ্টার দিয়ে প্রতিটা শিক্ষার্থীর বাড়িতে গিয়ে ক্ষমা চাওয়া।
+                                    </p>
+                                </div>
+
+                                <div class="bg-[#F8F9FA] rounded-2xl p-6 md:p-7">
+                                    <span class="inline-block bg-fmp-brandRedLight text-fmp-brandRed font-black text-sm px-4 py-1.5 rounded-lg mb-4 tracking-widest uppercase">
+                                        Demand 2
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-[#0B1221] mb-3 font-bangla-heading">বাস্তবমুখী শিক্ষাব্যবস্থা</h3>
+                                    <p class="text-[16px] text-gray-600 font-medium leading-relaxed">
+                                        মুখস্থবিদ্যার সিলেবাস বাতিল করে স্কিল-বেইজড ও প্র্যাকটিক্যাল এডুকেশন চালু করতে হবে। যাতে শিক্ষার্থীরা শুধু হেলিকপ্টার দেখে বা না পড়ে নিজেরাও বানাতে পারে।
+                                    </p>
+                                </div>
+
+                                <div class="bg-[#F8F9FA] rounded-2xl p-6 md:p-7">
+                                    <span class="inline-block bg-fmp-brandRedLight text-fmp-brandRed font-black text-sm px-4 py-1.5 rounded-lg mb-4 tracking-widest uppercase">
+                                        Demand 3
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-[#0B1221] mb-3 font-bangla-heading">স্বচ্ছ নিয়োগ প্রক্রিয়া</h3>
+                                    <p class="text-[16px] text-gray-600 font-medium leading-relaxed">
+                                        চাকরির বাজার বৃদ্ধি ও সরকারি প্রভাব বন্ধ করতে হবে।
+                                    </p>
+                                </div>
+
+                                <div class="bg-[#F8F9FA] rounded-2xl p-6 md:p-7">
+                                    <span class="inline-block bg-fmp-brandRedLight text-fmp-brandRed font-black text-sm px-4 py-1.5 rounded-lg mb-4 tracking-widest uppercase">
+                                        Demand 4
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-[#0B1221] mb-3 font-bangla-heading">সিদ্ধান্তে অংশীদারিত্ব</h3>
+                                    <p class="text-[16px] text-gray-600 font-medium leading-relaxed">
+                                        হেলিকপ্টার বসে শিক্ষার্থীদের ভবিষ্যৎ নির্ধারণ করা যাবে না। শিক্ষানীতি প্রণয়নে শিক্ষার্থীদের সরাসরি প্রতিনিধি রাখতে হবে অথবা হেলিকপ্টার থেকে নেমে বন্যার পানির উপর ভাসমান ভাঙ্গা নৌকায় বসে নীতি প্রণয়ন করতে হবে।
+                                    </p>
+                                </div>
+
+                                <div class="bg-[#F8F9FA] rounded-2xl p-6 md:p-7">
+                                    <span class="inline-block bg-fmp-brandRedLight text-fmp-brandRed font-black text-sm px-4 py-1.5 rounded-lg mb-4 tracking-widest uppercase">
+                                        Demand 5
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-[#0B1221] mb-3 font-bangla-heading">মিম প্রটেকশন ও ট্রোল কোটা</h3>
+                                    <p class="text-[16px] text-gray-600 font-medium leading-relaxed">
+                                        দেশের প্রতিভাবান মিমারদের জন্য বিশেষ রাষ্ট্রীয় সুরক্ষা দিতে হবে। মিলন আংকেলের ভুলত্রুটি নিয়ে ট্রোল করলে কোনো ডিজিটাল সিকিউরিটি অ্যাক্ট দেওয়া যাবে না, উল্টো মিমের রিচ বাড়ানোর জন্য সরকারি বুস্টিং ফান্ড দিতে হবে।
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Join Section -->
+            <section id="join" class="w-full glass-card p-8 md:p-12 text-center">
+                <h2 class="section-title text-2xl mb-8">জয়েন দ্যা পার্টি</h2>
+
+                <div class="max-w-2xl mx-auto">
+                    <h4 class="font-black text-xl md:text-2xl mb-4 flex items-center justify-center gap-2">
+                        <i data-lucide="target" class="text-fmp-textRed w-6 h-6"></i> আপনি কি আমাদের দলের যোগ্য?
+                    </h4>
+                    <p class="text-center font-bold text-fmp-textDark/70 mb-8 border-b border-fmp-textDark/10 pb-4">নিজেকে নিচের প্রশ্নগুলো করুন:</p>
+                    
+                    <ul class="space-y-6 text-[16px] font-medium text-left">
+                        <li class="flex gap-4">
+                            <div class="shrink-0 mt-1"><i data-lucide="check" class="w-5 h-5 text-fmp-textRed"></i></div>
+                            <div>
+                                <span class="font-bold text-fmp-textDark text-lg">১. আপনি কি আসলেই 'ফার্মের মুরগি'?</span><br> 
+                                <span class="text-sm text-fmp-textDark/60">(যাকে সবাই শুধু ফ্রি-তে জ্ঞান দেয়, কিন্তু ডিসিশন নেওয়ার সময় কেউ পাত্তা দেয় না?)</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="shrink-0 mt-1"><i data-lucide="check" class="w-5 h-5 text-fmp-textRed"></i></div>
+                            <div>
+                                <span class="font-bold text-fmp-textDark text-lg">২. আপনার কি লেভেলের অলস লাগে?</span><br> 
+                                <span class="text-sm text-fmp-textDark/60">(দুপুরে একটু ভাত/ফিড খাওয়ার পরই কি আপনার চোখের পাতা ভারী হয়ে আসে এবং দুনিয়ার কোনো কাজ করতে মন চায় না?)</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="shrink-0 mt-1"><i data-lucide="check" class="w-5 h-5 text-fmp-textRed"></i></div>
+                            <div>
+                                <span class="font-bold text-fmp-textDark text-lg">৩. আপনি কি 'ডিম' পাড়তে পাড়তে ক্লান্ত?</span><br> 
+                                <span class="text-sm text-fmp-textDark/60">(মুখস্থ বিদ্যার 'ব্রয়লার ফিড' খেয়ে শুধু জিপিএ-৫ এর ডিম পাড়তে আপনার আর ভালো লাগে না?)</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="shrink-0 mt-1"><i data-lucide="check" class="w-5 h-5 text-fmp-textRed"></i></div>
+                            <div>
+                                <span class="font-bold text-fmp-textDark text-lg">৪. আপনি কি রোস্ট হওয়ার অপেক্ষায় আছেন?</span><br> 
+                                <span class="text-sm text-fmp-textDark/60">(ডিগ্রি শেষ করে বেকারত্বের গরম চুলায় 'রোস্ট' হওয়ার আগেই কি আপনি খাঁচা ভাঙতে চান?)</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="shrink-0 mt-1"><i data-lucide="check" class="w-5 h-5 text-fmp-textRed"></i></div>
+                            <div>
+                                <span class="font-bold text-fmp-textDark text-lg">৫. আপনার ঠোঁট কি সুড়সুড় করে?</span><br> 
+                                <span class="text-sm text-fmp-textDark/60">(কেহ ফাউল কথা বললে বা ফার্মের মুরগি বলে অপমান করলে কি আপনার সোজা ঠুকরে দিতে মন চায়?)</span>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 p-4 bg-white/60 rounded-xl border border-white text-center shadow-sm">
+                        <p class="text-[15px] font-semibold text-fmp-textDark/90">
+                            <span class="font-black text-fmp-textRed mr-1">রেজাল্ট:</span> 
+                            যদি ওপরের অন্তত ৩টি প্রশ্নের উত্তর "হ্যাঁ" হয়, তবে অভিনন্দন! আপনি আমাদের গ্যাং-এর একজন সার্টিফায়েড মেম্বার হওয়ার যোগ্য। আর দেরি না করে নিচের ফর্মে আপনার ডেটা এন্ট্রি মারুন!
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex justify-center">
+                        <a href="https://forms.gle/VhRiepMwkaKsRST9A" target="_blank" class="bg-[#8B3A2B] text-white px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wider shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                            <i data-lucide="clipboard-edit" class="w-5 h-5"></i> Join Now
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="w-full glass-card p-8 md:p-12 max-w-4xl mx-auto scroll-mt-28">
+                <div class="text-center w-full mb-6">
+                    <h3 class="section-title text-[20px]">সাধারণ জিজ্ঞাসা (FAQ)</h3>
+                </div>
+                
+                <div class="flex flex-col">
+                    <div class="accordion-item">
+                        <button class="accordion-btn w-full text-left py-4 font-bold text-[17px]">
+                            <span class="flex items-center gap-3"><i data-lucide="help-circle" class="w-5 h-5 text-fmp-textRed/60"></i> FMP কি কোনো রাজনৈতিক দল?</span>
+                            <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                        </button>
+                        <div class="accordion-content hidden pb-4 text-[16px] font-medium text-fmp-textDark/80">
+                            না, এটি সম্পূর্ণ অরাজনৈতিক ও শিক্ষার্থীদের অধিকার আদায়ের একটি প্রতীকী ও প্রতিবাদী মাধ্যম।
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <button class="accordion-btn w-full text-left py-4 font-bold text-[17px]">
+                            <span class="flex items-center gap-3"><i data-lucide="help-circle" class="w-5 h-5 text-fmp-textRed/60"></i> এই ওয়েবসাইটের উদ্দেশ্য কী?</span>
+                            <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                        </button>
+                        <div class="accordion-content hidden pb-4 text-[16px] font-medium text-fmp-textDark/80">
+                            শিক্ষার্থীদের অধিকার নিয়ে কথা বলা এবং দায়িত্বশীলদের ভুল বা অপমানজনক বক্তব্যকে রম্য ও যুক্তির মাধ্যমে প্রতিবাদ জানানো।
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <button class="accordion-btn w-full text-left py-4 font-bold text-[17px]">
+                            <span class="flex items-center gap-3"><i data-lucide="help-circle" class="w-5 h-5 text-fmp-textRed/60"></i> এখানে যোগ দিলে কি কোনো ফি দিতে হবে?</span>
+                            <div class="accordion-icon ml-auto"><i data-lucide="chevron-down" class="w-5 h-5"></i></div>
+                        </button>
+                        <div class="accordion-content hidden pb-4 text-[16px] font-medium text-fmp-textDark/80">
+                            না, এটি সম্পূর্ণ উন্মুক্ত এবং এখানে যোগ দিতে কোনো টাকা-পয়সার প্রয়োজন নেই।
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div> <!-- End Main Container -->
+
+    <!-- Interactive Footer Area (The Egg) -->
+    <footer class="w-full relative mt-8 pb-12 pt-16 flex flex-col items-center overflow-visible border-t border-fmp-textDark/10">
+        
+        <div class="text-center z-10 relative mb-8">
+            <div class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm px-5 py-2 rounded-full shadow-sm text-fmp-textDark font-bold text-sm mb-6 border border-white">
+                <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-fmp-textRed"></i> একটি ডিম আছে নিচে... ক্লিক করে দেখুন!
+            </div>
+            
+            <div id="egg-container" class="relative cursor-pointer w-32 h-40 mx-auto group">
+                <div id="surprise-text" class="hidden absolute top-[-60px] left-1/2 -translate-x-1/2 speech-bubble px-6 py-2 font-black text-xl text-fmp-textDark whitespace-nowrap z-30 transform scale-0 origin-bottom transition-transform duration-300">
+                    এই তোমরা কেমন আছো?
+                </div>
+
+                <svg id="whole-egg" viewBox="0 0 100 130" class="w-full h-full drop-shadow-xl egg-shake transition-all duration-200">
+                    <defs>
+                        <radialGradient id="eggGrad" cx="30%" cy="30%" r="70%" fx="20%" fy="20%">
+                            <stop offset="0%" stop-color="#FFFFFF" />
+                            <stop offset="50%" stop-color="#FDFBF7" />
+                            <stop offset="90%" stop-color="#E5D2BA" />
+                        </radialGradient>
+                    </defs>
+                    <path d="M50 0 C20 0 0 40 0 80 C0 110 20 130 50 130 C80 130 100 110 100 80 C100 40 80 0 50 0 Z" fill="url(#eggGrad)" />
+                </svg>
+
+                <div id="cracked-egg" class="hidden absolute top-0 left-0 w-full h-full">
+                    <div id="rooster" class="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 transition-transform duration-500 scale-0 origin-bottom w-24 h-24">
+                        <svg viewBox="0 0 64 64" fill="none" class="w-full h-full drop-shadow-md">
+                            <path d="M42 32C42 43.0457 33.0457 52 22 52H14V32C14 20.9543 22.9543 12 34 12V32H42Z" fill="#F4A261"/>
+                            <path d="M34 12V6C34 6 36 2 40 4C44 6 42 10 42 10L40 12" fill="#E76F51"/>
+                            <circle cx="28" cy="22" r="2" fill="#264653"/>
+                            <path d="M14 24L6 28L14 32" fill="#E9C46A"/>
+                            <path d="M42 32C48 32 54 36 54 42C54 48 48 52 42 52" fill="#2A9D8F"/>
+                        </svg>
+                    </div>
+                    
+                    <svg viewBox="0 0 100 70" class="absolute top-[-10px] left-[-5px] w-full z-10 transform -rotate-[15deg] drop-shadow-md transition-transform duration-500" id="top-crack">
+                         <path d="M50 0 C20 0 0 40 0 70 L 15 55 L 30 70 L 45 50 L 60 70 L 75 55 L 90 70 C100 50 100 40 100 70 L100 50 C100 40 80 0 50 0 Z" fill="url(#eggGrad)" />
+                    </svg>
+                    
+                    <svg viewBox="0 0 100 80" class="absolute bottom-0 left-0 w-full z-20 drop-shadow-lg">
+                        <path d="M0 20 L 15 5 L 30 20 L 45 0 L 60 20 L 75 5 L 90 20 C100 20 100 20 100 20 C100 50 80 80 50 80 C20 80 0 50 0 20 Z" fill="url(#eggGrad)" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full text-center font-medium gap-2 flex flex-col items-center mt-6">
+            <p class="text-[14px] text-fmp-textDark/70">বিঃদ্রঃ এটি সম্পূর্ণ অরাজনৈতিক একটি প্রতিষ্ঠান ও মাধ্যম।</p>
+            <p class="text-[14px] text-fmp-textDark/70">পরামর্শের জন্য মেইল করুন: <a href="mailto:farmermurgiparty@gmail.com" class="font-bold hover:text-fmp-textRed transition-colors">farmermurgiparty@gmail.com</a></p>
+            <p class="text-xs text-fmp-textDark/40 mt-4">&copy; 2024 - 2026 Farmer Murgi Party (FMP). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const btn = item.querySelector('.accordion-btn');
+            const content = item.querySelector('.accordion-content');
+            
+            btn.addEventListener('click', () => {
+                const isOpen = !content.classList.contains('hidden');
+                
+                if (isOpen) {
+                    content.classList.add('hidden');
+                    item.classList.remove('active');
+                } else {
+                    content.classList.remove('hidden');
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        const eggContainer = document.getElementById('egg-container');
+        const wholeEgg = document.getElementById('whole-egg');
+        const crackedEgg = document.getElementById('cracked-egg');
+        const surpriseText = document.getElementById('surprise-text');
+        const topCrack = document.getElementById('top-crack');
+        const rooster = document.getElementById('rooster');
+        let isCracked = false;
+
+        eggContainer.addEventListener('click', () => {
+            if (!isCracked) {
+                wholeEgg.classList.add('hidden');
+                crackedEgg.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    topCrack.style.transform = 'translateY(-40px) translateX(-15px) rotate(-40deg)';
+                }, 50);
+
+                setTimeout(() => {
+                    rooster.classList.remove('scale-0');
+                    rooster.classList.add('scale-100');
+                    rooster.style.transform = 'translate(-50%, -70%)'; 
+                }, 100);
+
+                surpriseText.classList.remove('hidden');
+                setTimeout(() => {
+                    surpriseText.classList.remove('scale-0');
+                    surpriseText.classList.add('scale-100');
+                }, 350);
+                
+                isCracked = true;
+            } else {
+                wholeEgg.classList.remove('hidden');
+                crackedEgg.classList.add('hidden');
+                
+                surpriseText.classList.add('hidden');
+                surpriseText.classList.remove('scale-100');
+                surpriseText.classList.add('scale-0');
+                
+                rooster.classList.remove('scale-100');
+                rooster.classList.add('scale-0');
+                rooster.style.transform = 'translate(-50%, -50%)';
+                
+                topCrack.style.transform = 'translateY(0) rotate(-15deg)';
+                isCracked = false;
+            }
+        });
+    </script>
+</body>
+</html>
+
