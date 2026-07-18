@@ -1075,6 +1075,37 @@
   }
 </style>
 
+<div id="popup-notification-container" style="position: fixed; bottom: 24px; right: 24px; z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none;"></div>
+
+<style>
+  .toast-popup {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 16px 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    color: #2C1E16;
+    font-family: 'Anek Bangla', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.5s ease-in 4.5s forwards;
+    pointer-events: auto;
+  }
+  @keyframes slideIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+</style>
+
 <script>
   const myTopic = "join_live_fmp";
   const eventSource = new EventSource(`https://ntfy.sh/${myTopic}/sse`);
@@ -1091,36 +1122,6 @@
     const popup = document.createElement('div');
     popup.className = 'toast-popup';
     popup.innerHTML = `<div style="background:#D52B46; width:8px; height:8px; border-radius:50%;"></div><span><strong>${name}</strong> joined FMP</span>`;
-    container.appendChild(popup);
-    
-    setTimeout(() => {
-      popup.remove();
-    }, 5000);
-  }
-</script>
-
- 
-  const myTopic = "join_live_fmp"; 
-  
- 
-  const eventSource = new EventSource(`https://ntfy.sh/${myTopic}/sse`);
-  
-  eventSource.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-   
-    if (data.event === 'message') {
-      const userName = data.message;
-      showJoinPopup(userName);
-    }
-  };
-
-  function showJoinPopup(name) {
-    const container = document.getElementById('popup-notification-container');
-    const popup = document.createElement('div');
-    popup.className = 'toast-popup';
-   
-    popup.innerHTML = `<strong>${name}</strong> joined 🎉`;
-    
     container.appendChild(popup);
     
     setTimeout(() => {
